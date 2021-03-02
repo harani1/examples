@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node
+{
+  int data;
+  struct node *link;
+};
+typedef struct node ll;
+ll *first = NULL, *temp;
+int data, choice, sizeoflist;
+void insertbeg();
+void insertatpos();
+void print();
+void menu();
+void
+main ()
+{
+  while (choice != 3)
+    {
+      menu ();
+      scanf ("%d", &choice);
+      switch (choice)
+	{
+	case 1:
+	  insertbeg ();
+	  break;
+	case 2:
+	  insertatpos ();
+	  break;
+	case 3:
+	  print ();
+	  break;
+	case 4:
+	  exit (0);
+	default:
+	  printf ("wrong choice");
+	}
+    }
+}
+
+void
+menu ()
+{
+  printf ("enter ur choice");
+  printf ("1.insertbeg\n2.insertatpos\n3.print\n4.exit");
+}
+
+void
+insertbeg ()
+{
+  if (first == NULL)
+    {
+      first = (ll *) malloc (sizeof (ll));
+      ++sizeoflist;
+      printf ("enter data");
+      scanf ("%d", &data);
+      first->data = data;
+      first->link = NULL;
+    }
+  else
+    {
+      temp = (ll *) malloc (sizeof (ll));
+      printf ("enter data");
+      scanf ("%d", &data);
+      temp->data = data;
+      temp->link = first;
+      first = temp;
+    }
+}
+
+void
+insertatpos ()
+{
+  int position = 0;
+  int data;
+  ll *temp,*temp1;
+  printf ("enter position to insert");
+  scanf ("%d", &position);
+  if (position == 0)
+    {
+      void insertbeg ();
+      return;
+    }
+  if (position > sizeoflist)
+    {
+      printf ("outofbounds");
+      return;
+    }
+  temp = first;
+  for (int i = 1; i < position; i++)
+    {
+      temp = temp->link;
+    }
+  printf ("enter data");
+  scanf ("%d", &data);
+  temp1 = (ll *) malloc (sizeof (ll));
+  temp1->link = temp->link;
+  temp->link = temp1;
+  temp1->data = data;
+  ++sizeoflist;
+}
+
+void
+print ()
+{
+  if (first == NULL)
+    {
+      printf ("list is empty");
+    }
+  else
+    temp = first;
+  while (temp != NULL)
+    {
+      printf ("[%d %d]->\t", temp->data, temp->link);
+      temp = temp->link;
+    }
+}
