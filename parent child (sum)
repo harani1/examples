@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+int main()
+{
+    int p[2],i=0;
+    int a=4,b=5,sum=0,w,x;
+    pipe(p);
+    pid_t pid=fork();
+    if(pid==0)
+    {
+        sleep(2);
+        read(p[0],&a,sizeof(int));
+        read(p[0],&b,sizeof(int));
+        sum=a+b;
+        write(p[1],&sum,sizeof(int));
+    }
+    else if(pid>0)
+    {
+        write(p[1],&a,sizeof(int));
+        write(p[1],&b,sizeof(int));
+        sleep(4);
+        read(p[0],&sum,sizeof(int));
+        printf("sum is %d\n",sum);
+    }
+    return 0;
+}
